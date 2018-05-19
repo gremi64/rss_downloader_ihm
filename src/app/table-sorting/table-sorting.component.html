@@ -1,5 +1,5 @@
 <mat-form-field>
-    <input class="form-control" matInput (keyup)="applyFilter($event.target.value)">
+    <input class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
 </mat-form-field>
 
 <mat-table #table [dataSource]="dataSource" matSort>
@@ -26,7 +26,15 @@
   <ng-container matColumnDef="tvShowSeason">
     <mat-header-cell *matHeaderCellDef mat-sort-header> TvShowSeason </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <div *ngFor="let tvShowSeason of element.tvShowSeason" matLine> {{tvShowSeason.saison}} : {{tvShowSeason.link}} </div>
+      <div *ngFor="let tvShowSeason of element.tvShowSeason" matLine>
+        <a target="_blank" href={{tvShowSeason.link}}>Lien vers la saison {{tvShowSeason.saison}}</a> =>
+        <app-tv-show-episode-downloader
+          [tvShowName]=element.name
+          [qualite]=element.qualite
+          [langue]=element.langue
+          [saison]=tvShowSeason.saison>
+        </app-tv-show-episode-downloader>
+      </div>
     </mat-cell>
   </ng-container>
       

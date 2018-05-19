@@ -1,0 +1,11 @@
+<input matInput type="number" placeholder="0" [(ngModel)]="episode"/>
+<button (click)="onDownload()">Download me!</button>
+<span *ngIf="downloadLoading">Loading episode {{episode}}...<mat-spinner diameter=15></mat-spinner></span>
+
+<mat-card *ngIf="downloadedEpisodes.length">
+    <mat-list-item *ngFor="let downloadedEpisode of downloadedEpisodes">File name : {{downloadedEpisode.file_name}}</mat-list-item>
+</mat-card>
+
+<div *ngIf="errors" class="alert alert-warning" role="alert">
+    {{errors}}
+  </div>

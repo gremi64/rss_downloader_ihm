@@ -12,12 +12,17 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { TableSortingComponent } from './table-sorting/table-sorting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
+import { TvShowEpisodeDownloaderComponent } from './tv-show-episode-downloader/tv-show-episode-downloader.component';
+
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material'
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
-    TableSortingComponent
+    TableSortingComponent,
+    TvShowEpisodeDownloaderComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +36,8 @@ import { MatListModule } from '@angular/material/list';
     , MatSortModule
     , BrowserAnimationsModule
     , MatListModule
+    , MatProgressSpinnerModule
+    , MatCardModule
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]
