@@ -1,6 +1,12 @@
 import { Component, Injectable } from '@angular/core';
 import { HttpModule, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
 
 @Injectable() 
 export class SearchService {
@@ -13,26 +19,18 @@ export class SearchService {
     this.loading = false;
   }
 
-  search(term:string) {
+  search(term:string):Observable<Object[]> {
     console.log("getTvShow in progress");
-    let promise = new Promise((resolve, reject) => {
-      let apiURL = this.apiRoot+'getTvShow';
-      console.log("apiURL="+apiURL);
-      console.log(this.http);
-      this.http.get(apiURL)
-      .toPromise()
-      .then(
+    let apiURL = this.apiRoot+'getTvShow';
+    console.log("apiURL="+apiURL);
+    console.log(this.http);
+    return this.http.get(apiURL)
+      .map(
         res => { // Success
           console.log(res.json());
-          this.results = res.json();
-          resolve();
-        },
-        msg => { // Error
-          reject(msg);
+          return res.json();
         }
-      )
-    });
-    return promise;
+      );
   }
 }
 
@@ -43,14 +41,33 @@ export class SearchService {
 })
 export class TestComponent {
   private loading: boolean = false;
+  private tvShowList: Object[];
+  private searchField: FormControl;
 
   constructor(private rssDownloader: SearchService) {
+    this.doSearch("");
+  }
+
+  ngOnInit() {
+    this.searchField = new FormControl();
+    this.searchField.valueChanges
+        .debounceTime(800)
+        .distinctUntilChanged()
+        .do( term => {
+          console.log("value has changed into : " + term)
+        })
+        .subscribe();
+        
   }
 
   doSearch(term:string) {
     this.loading = true;
     //console.log("Recherche de '" + term + "'");
-    this.rssDownloader.search(term).then( () => this.loading = false);
+    this.rssDownloader.search(term).subscribe( (data) => {
+      this.loading = false;
+      this.tvShowList = data;
+    })
+    
   }
 
 }

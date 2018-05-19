@@ -1,0 +1,35 @@
+<mat-form-field>
+    <input class="form-control" matInput (keyup)="applyFilter($event.target.value)">
+</mat-form-field>
+
+<mat-table #table [dataSource]="dataSource" matSort>
+
+  <!-- Nom Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Qualite Column -->
+  <ng-container matColumnDef="qualite">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Qualite </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.qualite}} </mat-cell>
+  </ng-container>
+
+  <!-- Langue Column -->
+  <ng-container matColumnDef="langue">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Langue </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.langue}} </mat-cell>
+  </ng-container>
+
+  <!-- TvShowSeason Column -->
+  <ng-container matColumnDef="tvShowSeason">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> TvShowSeason </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div *ngFor="let tvShowSeason of element.tvShowSeason" matLine> {{tvShowSeason.saison}} : {{tvShowSeason.link}} </div>
+    </mat-cell>
+  </ng-container>
+      
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

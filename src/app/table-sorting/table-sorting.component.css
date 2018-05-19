@@ -1,0 +1,15 @@
+.mat-column-name {
+    flex: 0 0 250px;
+}
+
+.mat-column-qualite {
+    flex: 0 0 100px;
+}
+
+.mat-column-langue {
+    flex: 0 0 100px;
+}
+
+.mat-input-element {
+    border: 1px solid #ced4da;
+}
